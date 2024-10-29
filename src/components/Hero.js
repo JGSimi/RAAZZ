@@ -15,7 +15,7 @@ function Hero() {
       <p className="text-sm mb-8 text-lightGray lg:text-lg">Seu hub de informações automotivas, onde entusiastas se encontram.</p>
       <button
         onClick={handleLoginClick}
-        className="px-6 py-3 lg:px-12 lg:py-3 bg-neutralWhite text-neutralBlack font-semibold rounded-full hover:bg-lightGray transition-colors duration-300"
+        className="px-6 py-3 lg:px-12 lg:py-3 border-white border-2 bg-black text-white font-semibold rounded-sm hover:bg-white hover:text-black hover:shadow-2xl transition-all duration-300"
       >
         Entrar
       </button>

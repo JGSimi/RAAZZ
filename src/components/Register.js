@@ -59,14 +59,15 @@ function Register() {
                     <button type="submit" className="px-6 py-3 bg-white text-black font-semibold rounded-sm hover:bg-blue-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300">
                         Registrar
                     </button>
+                    <p className="mt-4 text-gray-400">Já tem uma conta?</p>
+                    <button
+                        onClick={handleLoginClick}
+                        className="px-6 py-3 mt-2 bg-white text-black font-semibold rounded-sm hover:bg-green-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
+                    >
+                        Entrar
+                    </button>
                 </form>
-                <p className="mt-4 text-gray-400">Já tem uma conta?</p>
-                <button
-                    onClick={handleLoginClick}
-                    className="px-6 py-3 mt-2 bg-white text-black font-semibold rounded-sm hover:bg-green-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
-                >
-                    Entrar
-                </button>
+
             </section>
         </section>
     );

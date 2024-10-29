@@ -50,14 +50,15 @@ function Login() {
                     <button type="submit" className="px-6 py-3 bg-white text-black font-semibold rounded-sm hover:bg-blue-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300">
                         Entrar
                     </button>
+                    <p className="mt-4 text-gray-400">Não tem uma conta?</p>
+                    <button
+                        onClick={handleRegisterClick}
+                        className="px-6 py-3 mt-2 bg-white text-black font-semibold rounded-sm hover:bg-green-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
+                    >
+                        Criar Conta
+                    </button>
                 </form>
-                <p className="mt-4 text-gray-400">Não tem uma conta?</p>
-                <button
-                    onClick={handleRegisterClick}
-                    className="px-6 py-3 mt-2 bg-white text-black font-semibold rounded-sm hover:bg-green-600 hover:text-white hover:scale-105 active:scale-95 transition-all duration-300"
-                >
-                    Criar Conta
-                </button>
+
             </section>
         </section>
     );
