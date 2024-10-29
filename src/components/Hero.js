@@ -1,15 +1,26 @@
 // src/components/Hero.js
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 function Hero() {
-    return (
-      <section className="bg-neutralBlack text-neutralWhite py-20 text-center">
-        <h2 className="text-5xl font-extrabold mb-4">Bem-vindo ao Raazz!</h2>
-        <p className="text-lg mb-8 text-lightGray">Seu hub de informações automotivas, onde entusiastas se encontram.</p>
-        <button className="px-6 py-3 bg-neutralWhite text-neutralBlack font-semibold rounded-full hover:bg-lightGray transition-colors duration-300">
-          Explore Carros
-        </button>
-      </section>
-    );
-  }
-  
-  export default Hero;
-  
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login'); // Redireciona para a tela de login
+  };
+
+  return (
+    <section className="bg-neutralBlack text-neutralWhite py-20 text-center">
+      <h2 className="text-3xl font-extrabold mb-4 lg:text-5xl">Bem-vindo ao Raazz!</h2>
+      <p className="text-sm mb-8 text-lightGray lg:text-lg">Seu hub de informações automotivas, onde entusiastas se encontram.</p>
+      <button
+        onClick={handleLoginClick}
+        className="px-6 py-3 lg:px-12 lg:py-3 bg-neutralWhite text-neutralBlack font-semibold rounded-full hover:bg-lightGray transition-colors duration-300"
+      >
+        Entrar
+      </button>
+    </section>
+  );
+}
+
+export default Hero;
