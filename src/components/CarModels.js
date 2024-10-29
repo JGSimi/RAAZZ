@@ -1,15 +1,21 @@
 // src/components/CarModels.js
 import { useEffect, useState } from 'react';
 import CarCard from './CarCard';
+import CarSearch from './CarSearch';
+import CarFilters from './CarFilters';
 
 function CarModels() {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(''); // Para busca de marca e modelo
-  const [selectedBrand, setSelectedBrand] = useState(''); // Para filtro de marca
-  const [startYear, setStartYear] = useState(''); // Ano inicial do intervalo
-  const [endYear, setEndYear] = useState(''); // Ano final do intervalo
-  const [sortOrder, setSortOrder] = useState('asc'); // Ordenação (ascendente ou descendente)
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [startYear, setStartYear] = useState('');
+  const [endYear, setEndYear] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const carsPerPage = 21;
+  const pageRange = 5;
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -43,14 +49,31 @@ function CarModels() {
     fetchCars();
   }, []);
 
-  // Funções de manipulação dos filtros e da barra de pesquisa
-  const handleSearchChange = (event) => setSearchTerm(event.target.value);
-  const handleBrandChange = (event) => setSelectedBrand(event.target.value);
-  const handleStartYearChange = (event) => setStartYear(event.target.value);
-  const handleEndYearChange = (event) => setEndYear(event.target.value);
-  const handleSortOrderChange = (event) => setSortOrder(event.target.value);
+  const handleSearchChange = (value) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
 
-  // Filtra e ordena os carros com base nos critérios selecionados
+  const handleBrandChange = (value) => {
+    setSelectedBrand(value);
+    setCurrentPage(1);
+  };
+
+  const handleStartYearChange = (value) => {
+    setStartYear(value);
+    setCurrentPage(1);
+  };
+
+  const handleEndYearChange = (value) => {
+    setEndYear(value);
+    setCurrentPage(1);
+  };
+
+  const handleSortOrderChange = (value) => {
+    setSortOrder(value);
+    setCurrentPage(1);
+  };
+
   const filteredCars = cars
     .filter((car) => {
       const matchesSearch = car.car.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -69,87 +92,98 @@ function CarModels() {
         : b.car_model_year - a.car_model_year;
     });
 
-  // Extrai listas únicas de marcas e anos para os filtros
+  const indexOfLastCar = currentPage * carsPerPage;
+  const indexOfFirstCar = indexOfLastCar - carsPerPage;
+  const currentCars = filteredCars.slice(indexOfFirstCar, indexOfLastCar);
+
+  const totalPages = Math.ceil(filteredCars.length / carsPerPage);
+
+  const startPage = Math.max(1, currentPage - Math.floor(pageRange / 2));
+  const endPage = Math.min(totalPages, startPage + pageRange - 1);
+  const visiblePages = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, i) => startPage + i
+  );
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+  const prevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
   const uniqueBrands = [...new Set(cars.map((car) => car.car))];
   const uniqueYears = [...new Set(cars.map((car) => car.car_model_year))].sort((a, b) => a - b);
 
   return (
-    <section id="cars" className="py-16 bg-lightGray">
+    <section id="cars" className="py-16 bg-white border-8 rounded-xl flex flex-col justify-center self-center w-full sm:w-full md:w-12/12 lg:w-11/12">
       <h3 className="text-3xl font-bold text-neutralBlack text-center mb-10">Destaques de Carros</h3>
       
-      {/* Filtros e barra de pesquisa */}
-      <div className="flex flex-col md:flex-row justify-center items-center mb-6 space-y-4 md:space-y-0 md:space-x-4">
-        <input
-          type="text"
-          placeholder="Buscar por marca ou modelo"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="p-2 border border-gray-300 rounded-md"
-        />
-
-        <select
-          value={selectedBrand}
-          onChange={handleBrandChange}
-          className="p-2 border border-gray-300 rounded-md"
-        >
-          <option value="">Todas as marcas</option>
-          {uniqueBrands.map((brand) => (
-            <option key={brand} value={brand}>
-              {brand}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={startYear}
-          onChange={handleStartYearChange}
-          className="p-2 border border-gray-300 rounded-md"
-        >
-          <option value="">Ano inicial</option>
-          {uniqueYears.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={endYear}
-          onChange={handleEndYearChange}
-          className="p-2 border border-gray-300 rounded-md"
-        >
-          <option value="">Ano final</option>
-          {uniqueYears.map((year) => (
-            <option key={year} value={year}>
-              {year}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={sortOrder}
-          onChange={handleSortOrderChange}
-          className="p-2 border border-gray-300 rounded-md"
-        >
-          <option value="asc">Mais velho para mais novo</option>
-          <option value="desc">Mais novo para mais velho</option>
-        </select>
+      <div className="flex justify-center p-5">
+      <CarSearch searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
+      </div>
+      <div className="flex justify-center p-5" >
+      <CarFilters
+        brands={uniqueBrands}
+        years={uniqueYears}
+        selectedBrand={selectedBrand}
+        startYear={startYear}
+        endYear={endYear}
+        sortOrder={sortOrder}
+        onBrandChange={handleBrandChange}
+        onStartYearChange={handleStartYearChange}
+        onEndYearChange={handleEndYearChange}
+        onSortOrderChange={handleSortOrderChange}
+      />
       </div>
 
       {loading ? (
         <p className="text-center">Carregando...</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto px-4">
-          {filteredCars.map((car) => (
-            <CarCard
-              key={car.id}
-              name={car.car}
-              model={car.car_model}
-              year={car.car_model_year}
-              price={car.price}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-full mx-auto px-4">
+            {currentCars.map((car) => (
+              <CarCard
+                key={car.id}
+                name={car.car}
+                model={car.car_model}
+                year={car.car_model_year}
+                price={car.price}
+              />
+            ))}
+          </div>
+
+          <div className="flex justify-center mt-8 space-x-2">
+            <button
+              onClick={prevPage}
+              className="px-4 py-2 border rounded-md bg-gray-200"
+              disabled={currentPage === 1}
+            >
+              &lt; Anterior
+            </button>
+
+            {visiblePages.map((number) => (
+              <button
+                key={number}
+                onClick={() => paginate(number)}
+                className={`px-4 py-2 border rounded-md ${
+                  currentPage === number ? "bg-blue-500 text-white" : "bg-white text-black"
+                }`}
+              >
+                {number}
+              </button>
+            ))}
+
+            <button
+              onClick={nextPage}
+              className="px-4 py-2 border rounded-md bg-gray-200"
+              disabled={currentPage === totalPages}
+            >
+              Próxima &gt;
+            </button>
+          </div>
+        </>
       )}
     </section>
   );
