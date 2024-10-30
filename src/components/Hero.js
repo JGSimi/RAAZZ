@@ -1,9 +1,17 @@
 // src/components/Hero.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Hero() {
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/feed'); // Redireciona para o feed se o usuário estiver logado
+    }
+  }, [currentUser, navigate]);
 
   const handleLoginClick = () => {
     navigate('/login'); // Redireciona para a tela de login

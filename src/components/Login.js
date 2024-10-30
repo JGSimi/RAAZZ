@@ -34,6 +34,10 @@ function Login() {
     }
   };
 
+  const handleRegister = () => {
+    navigate('/Register');
+  };
+
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2 justify-between px-10 items-center w-full h-full">
       <section className="bg-neutralBlack text-neutralWhite text-center flex justify-center gap-5 flex-col h-full lg:text-start">
@@ -62,13 +66,19 @@ function Login() {
           <button type="submit" className="px-6 py-3 bg-white text-black font-semibold rounded-sm hover:bg-blue-600 hover:text-white">
             Entrar
           </button>
-        </form>
-        <button
+          <button
           onClick={handleGoogleLogin}
-          className="mt-4 px-6 py-3 bg-red-500 text-white font-semibold rounded-sm hover:bg-red-600 hover:scale-105 active:scale-95 transition-all duration-300"
+          className="px-6 py-3 bg-red-500 text-white font-semibold rounded-sm hover:bg-red-600 hover:scale-105 active:scale-95 transition-all duration-300"
         >
           Entrar com Google
         </button>
+        <button
+          onClick={handleRegister}
+          className="px-6 py-3 bg-black text-white border-white border-2 font-semibold rounded-sm hover:bg-green-400 hover:scale-105 active:scale-95 transition-all duration-300"
+        >
+          Registrar-se
+        </button>
+        </form>
       </section>
     </section>
   );

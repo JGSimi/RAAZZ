@@ -14,9 +14,9 @@ function Header() {
       <aside className="bg-black p-2">
         <nav>
           <ul className="flex flex-row justify-around gap-2">
-            <li><a href="#" className="text-neutralWhite hover:underline">Home</a></li>
+            <li><a href="/feed" className="text-neutralWhite hover:underline">Home</a></li>
             <li><a href="#" className="text-neutralWhite hover:underline">Sobre</a></li>
-            <li><a href="#" className="text-neutralWhite hover:underline">Serviços</a></li>
+            <li><a href="/cars" className="text-neutralWhite hover:underline">Carros</a></li>
             <li><a href="#" className="text-neutralWhite hover:underline">Contato</a></li>
           </ul>
         </nav>
