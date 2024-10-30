@@ -11,6 +11,15 @@ const Post = ({ post }) => {
 
   return (
     <div className="post overflow-hidden max-w-full inline-flex flex-col justify-center">
+      {/* Perfil do usuário acima da imagem */}
+      <div className="flex items-center p-4">
+        <img
+          src={post.userProfileImage}
+          alt="user profile"
+          className="w-10 h-10 rounded-full mr-4"
+        />
+        <p className="font-semibold text-lightGray">{post.username}</p>
+      </div>
       <img src={post.imageUrl} alt="post" className="max-w-full h-64 object-cover" />
       <div className="p-4">
         <p className="text-lightGray">{post.description}</p>

@@ -22,6 +22,8 @@ const Feed = () => {
       {
         _id: "1",
         userId: "user1",
+        username: "Usuario1",
+        userProfileImage: "https://via.placeholder.com/50",
         imageUrl: "https://via.placeholder.com/400",
         description: "Primeira postagem de teste",
         likes: 10,
@@ -30,6 +32,8 @@ const Feed = () => {
       {
         _id: "2",
         userId: "user2",
+        username: "Usuario2",
+        userProfileImage: "https://via.placeholder.com/50",
         imageUrl: "https://via.placeholder.com/400",
         description: "Outra postagem interessante",
         likes: 5,
@@ -38,6 +42,8 @@ const Feed = () => {
       {
         _id: "3",
         userId: "user3",
+        username: "Usuario3",
+        userProfileImage: "https://via.placeholder.com/50",
         imageUrl: "https://via.placeholder.com/400",
         description: "Mais um exemplo de postagem",
         likes: 3,
