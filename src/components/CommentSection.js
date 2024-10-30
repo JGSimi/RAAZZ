@@ -7,7 +7,8 @@ const CommentSection = ({ comments }) => {
 
   const handleAddComment = () => {
     if (newComment.trim()) {
-      setLocalComments([...localComments, newComment]);
+      const newCommentObject = { username: "Você", text: newComment };
+      setLocalComments([...localComments, newCommentObject]);
       setNewComment("");
     }
   };
@@ -18,7 +19,8 @@ const CommentSection = ({ comments }) => {
       <div className="space-y-2">
         {localComments.map((comment, index) => (
           <p key={index} className="text-gray-300 text-sm">
-            {comment}
+            <span className="font-semibold text-lightGray mr-2">{comment.username}:</span>
+            {comment.text}
           </p>
         ))}
       </div>

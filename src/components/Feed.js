@@ -27,7 +27,10 @@ const Feed = () => {
         imageUrl: "https://via.placeholder.com/400",
         description: "Primeira postagem de teste",
         likes: 10,
-        comments: ["Incrível!", "Amei essa postagem!"],
+        comments: [
+          { username: "Comentador1", text: "Incrível!" },
+          { username: "Comentador2", text: "Amei essa postagem!" },
+        ],
       },
       {
         _id: "2",
@@ -37,7 +40,10 @@ const Feed = () => {
         imageUrl: "https://via.placeholder.com/400",
         description: "Outra postagem interessante",
         likes: 5,
-        comments: ["Muito legal!", "Gostei!"],
+        comments: [
+          { username: "Comentador3", text: "Muito legal!" },
+          { username: "Comentador4", text: "Gostei!" },
+        ],
       },
       {
         _id: "3",
@@ -47,7 +53,10 @@ const Feed = () => {
         imageUrl: "https://via.placeholder.com/400",
         description: "Mais um exemplo de postagem",
         likes: 3,
-        comments: ["Show!", "Legal demais!"],
+        comments: [
+          { username: "Comentador5", text: "Show!" },
+          { username: "Comentador6", text: "Legal demais!" },
+        ],
       },
     ];
 
