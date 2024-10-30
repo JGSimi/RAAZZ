@@ -1,20 +1,25 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-  const { login, loginWithGoogle } = useAuth();
+  const { login, loginWithGoogle, currentUser } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/feed'); // Se o usuário estiver logado, redireciona para o feed
+    }
+  }, [currentUser, navigate]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await login(email, password);
       alert('Login realizado com sucesso!');
-      navigate('/feed'); // Redireciona para o feed após login
     } catch (error) {
       alert('Erro no login: ' + error.message);
     }
@@ -24,10 +29,6 @@ function Login() {
     try {
       await loginWithGoogle();
       alert('Login com Google realizado com sucesso!');
-      // Use um pequeno atraso para garantir que o Firebase atualize o estado do usuário
-      setTimeout(() => {
-        navigate('/feed'); // Redireciona para o feed após login com Google
-      }, 500);
     } catch (error) {
       alert('Erro no login com Google: ' + error.message);
     }

@@ -12,7 +12,7 @@ import {
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // Registrar usuário
@@ -42,8 +42,8 @@ export function AuthProvider({ children }) {
 
   // Monitorar o estado de autenticação
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
       setLoading(false);
     });
 
@@ -51,7 +51,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, register, login, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ currentUser, register, login, loginWithGoogle, logout, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );

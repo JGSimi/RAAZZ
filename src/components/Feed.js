@@ -1,9 +1,20 @@
 // src/components/Feed.js
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import Post from "./Post";
 
 const Feed = () => {
+  const { currentUser, loading } = useAuth();
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    // Verifica se o carregamento terminou antes de tentar redirecionar
+    if (!loading && !currentUser) {
+      navigate("/login");
+    }
+  }, [currentUser, loading, navigate]);
 
   useEffect(() => {
     // Dados simulados para testar o feed sem backend
