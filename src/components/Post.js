@@ -10,10 +10,10 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div className="post bg-white shadow-md rounded-lg overflow-hidden">
-      <img src={post.imageUrl} alt="post" className="w-full h-64 object-cover" />
+    <div className="post overflow-hidden max-w-full inline-flex flex-col justify-center">
+      <img src={post.imageUrl} alt="post" className="max-w-full h-64 object-cover" />
       <div className="p-4">
-        <p className="text-gray-700">{post.description}</p>
+        <p className="text-lightGray">{post.description}</p>
         <div className="flex items-center space-x-4 mt-2">
           <button onClick={handleLike} className="text-blue-500 font-semibold">
             Curtir ({likes})

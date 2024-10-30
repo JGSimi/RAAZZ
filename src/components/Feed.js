@@ -49,8 +49,7 @@ const Feed = () => {
   }, []);
 
   return (
-    <div className="feed space-y-4 p-4">
-      <h2 className="text-2xl font-bold mb-4">Feed de Postagens</h2>
+    <div className="feed flex flex-col w-full bg-black">
       {posts.length > 0 ? (
         posts.map((post) => <Post key={post._id} post={post} />)
       ) : (

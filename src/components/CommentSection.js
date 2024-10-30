@@ -14,10 +14,10 @@ const CommentSection = ({ comments }) => {
 
   return (
     <div className="mt-4">
-      <h3 className="text-gray-600 text-sm font-semibold mb-2">Comentários</h3>
+      <h3 className="text-lightGray text-sm font-semibold mb-2">Comentários</h3>
       <div className="space-y-2">
         {localComments.map((comment, index) => (
-          <p key={index} className="text-gray-700 text-sm">
+          <p key={index} className="text-gray-300 text-sm">
             {comment}
           </p>
         ))}
