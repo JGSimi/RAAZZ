@@ -7,9 +7,9 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import Login from './components/Login';
 import Register from './components/Register';
-import CarModels from './components/CarModels';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
+import Feed from './components/Feed';
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
                 <Route path="/" element={<Hero />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/car-models" element={<ProtectedRoute><CarModels /></ProtectedRoute>} />
+                <Route path="/feed" element={<ProtectedRoute><Feed /></ProtectedRoute>} />
               </Routes>
             </section>
           </main>

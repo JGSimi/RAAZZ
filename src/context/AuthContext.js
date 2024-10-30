@@ -1,50 +1,58 @@
 // src/context/AuthContext.js
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { auth, googleProvider } from '../firebaseConfig';
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signInWithPopup,
+  signOut, 
+  onAuthStateChanged 
+} from "firebase/auth";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const register = (email, username, password) => {
-    // Armazena os dados no localStorage
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const userExists = users.some((user) => user.email === email);
-
-    if (userExists) {
-      alert('Usuário já cadastrado!');
-      return false;
-    }
-
-    const newUser = { email, username, password };
-    users.push(newUser);
-    localStorage.setItem('users', JSON.stringify(users));
-    return true;
+  // Registrar usuário
+  const register = (email, password) => {
+    return createUserWithEmailAndPassword(auth, email, password);
   };
 
+  // Fazer login com email e senha
   const login = (email, password) => {
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const user = users.find((user) => user.email === email && user.password === password);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
 
-    if (user) {
-      setUser(user);
-      setIsAuthenticated(true);
-      return true;
-    } else {
-      alert('Credenciais inválidas');
-      return false;
+  // Fazer login com Google
+  const loginWithGoogle = async () => {
+    try {
+      return await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error("Erro no login com Google:", error);
+      throw error;
     }
   };
 
+  // Logout
   const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
+    return signOut(auth);
   };
+
+  // Monitorar o estado de autenticação
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, register, login, logout }}>
-      {children}
+    <AuthContext.Provider value={{ user, register, login, loginWithGoogle, logout }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 }
