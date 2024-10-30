@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { db } from '../firebaseConfig';
+import { collection, getDocs } from "firebase/firestore";
 import Post from "./Post";
+import CreatePost from "./CreatePost";
 
 const Feed = () => {
   const { currentUser, loading } = useAuth();
@@ -10,63 +13,44 @@ const Feed = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    // Verifica se o carregamento terminou antes de tentar redirecionar
+    // Redireciona para o login se não houver usuário autenticado
     if (!loading && !currentUser) {
       navigate("/login");
     }
   }, [currentUser, loading, navigate]);
 
   useEffect(() => {
-    // Dados simulados para testar o feed sem backend
-    const mockPosts = [
-      {
-        _id: "1",
-        userId: "user1",
-        username: "Usuario1",
-        userProfileImage: "https://via.placeholder.com/50",
-        imageUrl: "https://via.placeholder.com/400",
-        description: "Primeira postagem de teste",
-        likes: 10,
-        comments: [
-          { username: "Comentador1", text: "Incrível!" },
-          { username: "Comentador2", text: "Amei essa postagem!" },
-        ],
-      },
-      {
-        _id: "2",
-        userId: "user2",
-        username: "Usuario2",
-        userProfileImage: "https://via.placeholder.com/50",
-        imageUrl: "https://via.placeholder.com/400",
-        description: "Outra postagem interessante",
-        likes: 5,
-        comments: [
-          { username: "Comentador3", text: "Muito legal!" },
-          { username: "Comentador4", text: "Gostei!" },
-        ],
-      },
-      {
-        _id: "3",
-        userId: "user3",
-        username: "Usuario3",
-        userProfileImage: "https://via.placeholder.com/50",
-        imageUrl: "https://via.placeholder.com/400",
-        description: "Mais um exemplo de postagem",
-        likes: 3,
-        comments: [
-          { username: "Comentador5", text: "Show!" },
-          { username: "Comentador6", text: "Legal demais!" },
-        ],
-      },
-    ];
+    const fetchPosts = async () => {
+      try {
+        const postsCollection = collection(db, "posts");
+        const postsSnapshot = await getDocs(postsCollection);
+        const postsList = postsSnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setPosts(postsList);
+      } catch (error) {
+        console.error("Erro ao carregar postagens:", error);
+      }
+    };
 
-    setPosts(mockPosts); // Carrega os dados mockados
+    fetchPosts();
   }, []);
+
+  const handleNewPost = () => {
+    navigate('/post');
+  };
 
   return (
     <div className="feed flex flex-col w-full bg-black">
+      <button
+          onClick={handleNewPost}
+          className="px-6 py-3 bg-black text-white border-white border-2 font-semibold rounded-sm hover:bg-green-400 hover:scale-105 active:scale-95 transition-all duration-300"
+        >
+          Postar
+        </button>
       {posts.length > 0 ? (
-        posts.map((post) => <Post key={post._id} post={post} />)
+        posts.map((post) => <Post key={post.id} post={post} />)
       ) : (
         <p className="text-center text-gray-500">Nenhuma postagem disponível</p>
       )}

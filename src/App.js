@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import Feed from './components/Feed';
 import CarModels from './components/CarModels'
+import CreatePost from './components/CreatePost';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/feed" element={<ProtectedRoute><Feed /></ProtectedRoute>} />
+                <Route path="/post" element={<ProtectedRoute><CreatePost /></ProtectedRoute>} />
                 <Route path="/cars" element={<ProtectedRoute><CarModels /></ProtectedRoute>}/>
               </Routes>
             </section>
