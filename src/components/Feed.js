@@ -42,18 +42,20 @@ const Feed = () => {
   };
 
   return (
-    <div className="feed flex flex-col w-full bg-black">
-      <button
-          onClick={handleNewPost}
-          className="px-6 py-3 bg-black text-white border-white border-2 font-semibold rounded-sm hover:bg-green-400 hover:scale-105 active:scale-95 transition-all duration-300"
-        >
-          Postar
-        </button>
+    <div className="feed flex flex-col w-full max-w-2xl bg-black">
       {posts.length > 0 ? (
         posts.map((post) => <Post key={post.id} post={post} />)
       ) : (
         <p className="text-center text-gray-500">Nenhuma postagem disponível</p>
       )}
+
+      <button
+        onClick={handleNewPost}
+        className="w-fit fixed right-5 bottom-5 rounded-full py-3 px-5 bg-black text-white border-white border-4 font-semibold hover:bg-green-400 hover:scale-105 active:scale-95 transition-all duration-300"
+
+      >
+       +
+      </button>
     </div>
   );
 };

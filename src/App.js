@@ -17,7 +17,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="bg-neutralWhite min-h-screen flex flex-col font-mono">
+        <div className="bg-neutralBlack min-h-screen flex flex-col font-mono">
           <Header />
           <main className="flex-grow bg-neutralBlack p-0 sm:p-0 md:p-12 lg:p-16 flex flex-col justify-center">
             <section className="flex justify-center w-full">
