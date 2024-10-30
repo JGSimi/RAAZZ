@@ -19,7 +19,6 @@ function Login() {
     e.preventDefault();
     try {
       await login(email, password);
-      alert('Login realizado com sucesso!');
     } catch (error) {
       alert('Erro no login: ' + error.message);
     }
@@ -28,7 +27,6 @@ function Login() {
   const handleGoogleLogin = async () => {
     try {
       await loginWithGoogle();
-      alert('Login com Google realizado com sucesso!');
     } catch (error) {
       alert('Erro no login com Google: ' + error.message);
     }
