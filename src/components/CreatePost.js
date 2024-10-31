@@ -49,33 +49,31 @@ const CreatePost = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="create-post-form p-4 bg-white rounded shadow-md">
-      <h2 className="text-lg font-semibold mb-4">Criar Nova Postagem</h2>
+    <form onSubmit={handleSubmit} className="create-post-form p-4 bg-black rounded shadow-md border-white border-4">
+      <h2 className="text-lg text-white text-center font-semibold mb-4">Criar Nova Postagem</h2>
 
       <div className="mb-3">
-        <label className="block text-gray-700">Imagem da Postagem</label>
+        <label className="block mb-2 text-gray-200">Imagem da Postagem</label>
         <input
           type="file"
           onChange={handleImageChange}
-          className="w-full p-2 border rounded"
-          required
+          className="w-full p-2 border-4 rounded text-white"
         />
       </div>
 
       <div className="mb-3">
-        <label className="block text-gray-700">Descrição</label>
+        <label className="block mb-2 text-gray-200">Descrição</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border-4 rounded bg-transparent text-white"
           rows="3"
-          required
         ></textarea>
       </div>
 
       <button
         type="submit"
-        className="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        className="w-full bg-transparent border-4 text-white font-semibold py-2 px-4 rounded hover:bg-green-400 hover:text-black"
         disabled={isSubmitting}
       >
         {isSubmitting ? "Enviando..." : "Postar"}
