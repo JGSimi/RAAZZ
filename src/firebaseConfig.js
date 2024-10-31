@@ -2,6 +2,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage"; // Added Firebase Storage
 
 const firebaseConfig = {
   apiKey: "AIzaSyBf5unct1KREd59zfKW8yzi0jTkL6XDrU4",
@@ -13,10 +14,11 @@ const firebaseConfig = {
   measurementId: "G-PCMWK3STLE"
 };
 
-// Inicialize o app Firebase apenas se ainda não estiver inicializado
+// Initialize Firebase app if not already initialized
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
-const db = getFirestore(app); // Adiciona Firestore
+const db = getFirestore(app);
+const storage = getStorage(app); // Initialize Storage
 const googleProvider = new GoogleAuthProvider();
 
-export { auth, db, googleProvider };
+export { auth, db, storage, googleProvider };

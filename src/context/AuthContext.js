@@ -15,17 +15,14 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Registrar usuário
   const register = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  // Fazer login com email e senha
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  // Fazer login com Google
   const loginWithGoogle = async () => {
     try {
       return await signInWithPopup(auth, googleProvider);
@@ -35,15 +32,20 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Logout
   const logout = () => {
     return signOut(auth);
   };
 
-  // Monitorar o estado de autenticação
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+      if (user) {
+        setCurrentUser({
+          ...user,
+          photoURL: user.photoURL || '/path/to/placeholder.jpg', // Set placeholder if photoURL is missing
+        });
+      } else {
+        setCurrentUser(null);
+      }
       setLoading(false);
     });
 

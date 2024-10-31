@@ -1,34 +1,46 @@
 // src/components/CreatePost.js
 import React, { useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from '../firebaseConfig';
+import { db, storage } from '../firebaseConfig';
+import { useAuth } from "../context/AuthContext";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useNavigate } from 'react-router-dom';
 
 const CreatePost = () => {
-  const [username, setUsername] = useState("");
-  const [userProfileImage, setUserProfileImage] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const { currentUser } = useAuth();
+  const [imageFile, setImageFile] = useState(null);
   const [description, setDescription] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const handleImageChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
+      let imageUrl = "";
+      if (imageFile) {
+        const imageRef = ref(storage, `posts/${currentUser.uid}/${imageFile.name}`);
+        await uploadBytes(imageRef, imageFile);
+        imageUrl = await getDownloadURL(imageRef);
+      }
+
       await addDoc(collection(db, "posts"), {
-        username,
-        userProfileImage,
+        username: currentUser.displayName || "User",
+        userProfileImage: currentUser.photoURL || '/path/to/placeholder.jpg',
         imageUrl,
         description,
         likes: 0,
+        userId: currentUser.uid
       });
-      console.log("Postagem criada com sucesso!");
 
-      // Limpa os campos após a submissão
-      setUsername("");
-      setUserProfileImage("");
-      setImageUrl("");
       setDescription("");
+      setImageFile(null);
+      navigate('/feed');
     } catch (error) {
       console.error("Erro ao criar postagem:", error);
     } finally {
@@ -39,35 +51,12 @@ const CreatePost = () => {
   return (
     <form onSubmit={handleSubmit} className="create-post-form p-4 bg-white rounded shadow-md">
       <h2 className="text-lg font-semibold mb-4">Criar Nova Postagem</h2>
-      
-      <div className="mb-3">
-        <label className="block text-gray-700">Nome de Usuário</label>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
-        />
-      </div>
 
       <div className="mb-3">
-        <label className="block text-gray-700">Imagem de Perfil (URL)</label>
+        <label className="block text-gray-700">Imagem da Postagem</label>
         <input
-          type="text"
-          value={userProfileImage}
-          onChange={(e) => setUserProfileImage(e.target.value)}
-          className="w-full p-2 border rounded"
-          required
-        />
-      </div>
-
-      <div className="mb-3">
-        <label className="block text-gray-700">Imagem da Postagem (URL)</label>
-        <input
-          type="text"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
+          type="file"
+          onChange={handleImageChange}
           className="w-full p-2 border rounded"
           required
         />

@@ -1,15 +1,33 @@
 // src/components/CommentSection.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { db } from '../firebaseConfig';
+import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
 
-const CommentSection = ({ comments }) => {
+const CommentSection = ({ postId }) => {
   const [newComment, setNewComment] = useState("");
-  const [localComments, setLocalComments] = useState(comments || []);
+  const [comments, setComments] = useState([]);
 
-  const handleAddComment = () => {
+  useEffect(() => {
+    // Fetch comments from Firestore for the specific post
+    const fetchComments = async () => {
+      const commentsRef = collection(db, "posts", postId, "comments");
+      const commentsSnapshot = await getDocs(commentsRef);
+      const commentsList = commentsSnapshot.docs.map(doc => doc.data());
+      setComments(commentsList);
+    };
+    fetchComments();
+  }, [postId]);
+
+  const handleAddComment = async () => {
     if (newComment.trim()) {
-      const newCommentObject = { username: "Você", text: newComment };
-      setLocalComments([...localComments, newCommentObject]);
+      const commentsRef = collection(db, "posts", postId, "comments");
+      await addDoc(commentsRef, {
+        username: "User",  // Replace with current user’s name
+        text: newComment,
+        timestamp: serverTimestamp()
+      });
       setNewComment("");
+      setComments(prevComments => [...prevComments, { username: "User", text: newComment }]); // Temporarily update
     }
   };
 
@@ -17,7 +35,7 @@ const CommentSection = ({ comments }) => {
     <div className="mt-4">
       <h3 className="text-lightGray text-sm font-semibold mb-2">Comentários</h3>
       <div className="space-y-2">
-        {localComments.map((comment, index) => (
+        {comments.map((comment, index) => (
           <p key={index} className="text-gray-300 text-sm">
             <span className="font-semibold text-lightGray mr-2">{comment.username}:</span>
             {comment.text}
