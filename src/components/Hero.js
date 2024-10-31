@@ -18,16 +18,20 @@ function Hero() {
   };
 
   return (
-    <section className="bg-neutralBlack text-neutralWhite py-20 text-center">
-      <h2 className="text-3xl font-extrabold mb-4 lg:text-5xl">Bem-vindo ao Raazz!</h2>
-      <p className="text-sm mb-8 text-lightGray lg:text-lg">Seu hub de informações automotivas, onde entusiastas se encontram.</p>
-      <button
-        onClick={handleLoginClick}
-        className="px-6 py-3 lg:px-12 lg:py-3 border-white border-2 bg-black text-white font-semibold rounded-sm hover:bg-white hover:text-black hover:shadow-2xl transition-all duration-300"
-      >
-        Entrar
-      </button>
-    </section>
+    <div className="w-full bg-gradient-to-b from-black to-gray-900">
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-3xl font-extrabold mb-4 lg:text-5xl">Bem-vindo ao Raazz!</h2>
+          <p className="text-sm mb-8 text-lightGray lg:text-lg">Seu hub de informações automotivas, onde entusiastas se encontram.</p>
+          <button
+            onClick={handleLoginClick}
+            className="px-6 py-3 lg:px-12 lg:py-3 border-white border-2 bg-black text-white font-semibold rounded-sm hover:bg-white hover:text-black hover:shadow-2xl transition-all duration-300"
+          >
+            Entrar
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

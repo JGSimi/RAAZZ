@@ -117,75 +117,81 @@ function CarModels() {
   const uniqueYears = [...new Set(cars.map((car) => car.car_model_year))].sort((a, b) => a - b);
 
   return (
-    <section id="cars" className="py-16 bg-white border-8 rounded-xl flex flex-col justify-center self-center w-full sm:w-full md:w-12/12 lg:w-11/12">
-      <h3 className="text-3xl font-bold text-neutralBlack text-center mb-10">Destaques de Carros</h3>
-      
-      <div className="flex justify-center p-5">
-      <CarSearch searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
+    <div className="w-full bg-gradient-to-b from-black to-gray-900">
+      <div className="min-h-screen p-4">
+        <div className="max-w-7xl mx-auto">
+          <section id="cars" className="py-16 bg-white border-8 rounded-xl flex flex-col justify-center self-center w-full sm:w-full md:w-12/12 lg:w-11/12">
+            <h3 className="text-3xl font-bold text-neutralBlack text-center mb-10">Destaques de Carros</h3>
+            
+            <div className="flex justify-center p-5">
+            <CarSearch searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
+            </div>
+            <div className="flex justify-center p-5" >
+            <CarFilters
+              brands={uniqueBrands}
+              years={uniqueYears}
+              selectedBrand={selectedBrand}
+              startYear={startYear}
+              endYear={endYear}
+              sortOrder={sortOrder}
+              onBrandChange={handleBrandChange}
+              onStartYearChange={handleStartYearChange}
+              onEndYearChange={handleEndYearChange}
+              onSortOrderChange={handleSortOrderChange}
+            />
+            </div>
+
+            {loading ? (
+              <p className="text-center">Carregando...</p>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-full mx-auto px-4">
+                  {currentCars.map((car) => (
+                    <CarCard
+                      key={car.id}
+                      name={car.car}
+                      model={car.car_model}
+                      year={car.car_model_year}
+                      price={car.price}
+                    />
+                  ))}
+                </div>
+
+                <div className="flex justify-center mt-8 space-x-2">
+                  <button
+                    onClick={prevPage}
+                    className="px-4 py-2 border rounded-md bg-gray-200"
+                    disabled={currentPage === 1}
+                  >
+                    &lt; Anterior
+                  </button>
+
+                  {visiblePages.map((number) => (
+                    <button
+                      key={number}
+                      onClick={() => paginate(number)}
+                      className={`px-4 py-2 border rounded-md ${
+                        currentPage === number ? "bg-blue-500 text-white" : "bg-white text-black"
+                      }`}
+                    >
+                      {number}
+                    </button>
+                  ))}
+
+                  <button
+                    onClick={nextPage}
+                    className="px-4 py-2 border rounded-md bg-gray-200"
+                    disabled={currentPage === totalPages}
+                  >
+                    Próxima &gt;
+                  </button>
+                </div>
+              </>
+            )}
+          </section>
+        </div>
       </div>
-      <div className="flex justify-center p-5" >
-      <CarFilters
-        brands={uniqueBrands}
-        years={uniqueYears}
-        selectedBrand={selectedBrand}
-        startYear={startYear}
-        endYear={endYear}
-        sortOrder={sortOrder}
-        onBrandChange={handleBrandChange}
-        onStartYearChange={handleStartYearChange}
-        onEndYearChange={handleEndYearChange}
-        onSortOrderChange={handleSortOrderChange}
-      />
-      </div>
-
-      {loading ? (
-        <p className="text-center">Carregando...</p>
-      ) : (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 max-w-full mx-auto px-4">
-            {currentCars.map((car) => (
-              <CarCard
-                key={car.id}
-                name={car.car}
-                model={car.car_model}
-                year={car.car_model_year}
-                price={car.price}
-              />
-            ))}
-          </div>
-
-          <div className="flex justify-center mt-8 space-x-2">
-            <button
-              onClick={prevPage}
-              className="px-4 py-2 border rounded-md bg-gray-200"
-              disabled={currentPage === 1}
-            >
-              &lt; Anterior
-            </button>
-
-            {visiblePages.map((number) => (
-              <button
-                key={number}
-                onClick={() => paginate(number)}
-                className={`px-4 py-2 border rounded-md ${
-                  currentPage === number ? "bg-blue-500 text-white" : "bg-white text-black"
-                }`}
-              >
-                {number}
-              </button>
-            ))}
-
-            <button
-              onClick={nextPage}
-              className="px-4 py-2 border rounded-md bg-gray-200"
-              disabled={currentPage === totalPages}
-            >
-              Próxima &gt;
-            </button>
-          </div>
-        </>
-      )}
-    </section>
+    </div>
   );
 }
 

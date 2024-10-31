@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Adicione isso ao seu arquivo de estilos */
+.dropdown-overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  background-color: transparent;
+}
+
+/* Garantir que o conteúdo principal não sobreponha o dropdown */
+main {
+  position: relative;
+  z-index: 10;
+}
