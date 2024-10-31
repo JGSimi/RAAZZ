@@ -1,23 +1,3 @@
-// src/components/ProtectedRoute.js
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-
-const ProtectedRoute = ({ children }) => {
-  const { currentUser, loading } = useAuth();
-
-  if (loading) {
-    // Mostre um indicador de carregamento enquanto aguardamos a verificação de autenticação
-    return <div>Carregando...</div>;
-  }
-
-  // Se não houver usuário autenticado, redirecione para o login
-  if (!currentUser) {
-    return <Navigate to="/login" />;
-  }
-
-  // Caso o usuário esteja autenticado, renderize o componente filho
-  return children;
-};
-
-export default ProtectedRoute;
+version https://git-lfs.github.com/spec/v1
+oid sha256:c992612771891d500c074181dde156e6a02353ce22253952578fbcb05763acd3
+size 660
